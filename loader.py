@@ -44,8 +44,9 @@ driver.close()
 # run the following query to move the data from citrus to neo4j (TODO change the query on transactions to split the work)
 """
 WITH "jdbc:postgresql://clefable.fib.upc.edu:9700/bdm?user=postgres&password=postgres" as url,
-     //"select * from transactions where transaction_date between '1900-01-01' and '2100-12-31'" as query
-     "transactions" as query
+     "select * from transactions
+     where product_category='1201'
+        and transaction_date between '1900-01-01' and '2100-12-31'" as query
 CALL apoc.load.jdbc(url,query) YIELD row
 MERGE (origin:Country {name:row.origin})
 MERGE (destination:Country {name:row.destination})
